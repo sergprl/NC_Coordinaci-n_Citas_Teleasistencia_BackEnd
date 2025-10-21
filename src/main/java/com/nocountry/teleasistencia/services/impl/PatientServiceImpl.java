@@ -1,35 +1,37 @@
-package com.nocountry.teleasistencia.services;
+package com.nocountry.teleasistencia.services.impl;
 
 import com.nocountry.teleasistencia.model.Patient;
+import com.nocountry.teleasistencia.model.enums.Role;
 import com.nocountry.teleasistencia.repository.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nocountry.teleasistencia.services.PatientService;
+import com.nocountry.teleasistencia.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
 
-    private final UserService userService;
-
-    public PatientServiceImpl(PatientRepository patientRepository, UserService userService) {
-        this.patientRepository = patientRepository;
-        this.userService = userService;
-    }
-
-
     @Override
     public Patient save(Patient patient) {
-        userService.save(patient, "PATIENT");
+        if (patientRepository.existsByEmail(patient.getEmail())) {
+            throw new IllegalArgumentException("Email already in use.");
+        }
+        patient.setRole(Role.PATIENT);
+
+        // TODO: Encrypt password
+
         return patientRepository.save(patient);
     }
 
     @Override
     public List<Patient> findAll() {
-        return (List<Patient>) patientRepository.findAll();
+        return patientRepository.findAll();
     }
 
     @Override
