@@ -2,6 +2,7 @@ package com.nocountry.teleasistencia.controllers;
 
 import com.nocountry.teleasistencia.model.Patient;
 import com.nocountry.teleasistencia.services.PatientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static com.nocountry.teleasistencia.common.ApiPaths.PATIENT_BASE;
+
 @RestController
-@RequestMapping("/patients")
+@RequestMapping(PATIENT_BASE)
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class PatientController {
 
     private final PatientService patientService;
-
-    public PatientController(PatientService patientService) {
-        this.patientService = patientService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Patient>> getAllPatients() {

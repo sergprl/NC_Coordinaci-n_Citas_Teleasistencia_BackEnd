@@ -1,11 +1,13 @@
 package com.nocountry.teleasistencia.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -13,9 +15,12 @@ import java.time.LocalDate;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Patient extends User{
 
+    @Column(name = "birthDate")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 
-    private String address;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Appointment> appointments = new ArrayList<>();
 
-    private String genre;
+    private String address;
 }

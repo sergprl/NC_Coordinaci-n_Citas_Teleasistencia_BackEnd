@@ -1,10 +1,12 @@
 package com.nocountry.teleasistencia.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import com.nocountry.teleasistencia.model.enums.Specialty;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -12,10 +14,13 @@ import lombok.EqualsAndHashCode;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Doctor extends User{
 
-    private String specialty;
+    @Enumerated(EnumType.STRING)
+    private Specialty specialty;
 
     @Column(unique = true)
     private String licenseNumber;
 
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Appointment> appointments= new ArrayList<>();
 
 }

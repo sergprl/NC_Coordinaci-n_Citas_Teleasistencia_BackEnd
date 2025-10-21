@@ -1,5 +1,7 @@
 package com.nocountry.teleasistencia.services;
 
+import com.nocountry.teleasistencia.dto.request.UserRequestDto;
+import com.nocountry.teleasistencia.dto.response.UserResponseDto;
 import com.nocountry.teleasistencia.model.User;
 
 import java.util.List;
@@ -7,11 +9,11 @@ import java.util.Optional;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<UserResponseDto> findAll();
 
-    Optional<User> findById(Long id);
+    Optional<UserResponseDto> findById(Long id);
 
-    User save(User user, String role);
+    UserResponseDto save(UserRequestDto user);
 
     boolean existsUsername(String username);
 }

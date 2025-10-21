@@ -2,9 +2,14 @@ package com.nocountry.teleasistencia.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nocountry.teleasistencia.model.enums.Gender;
+import com.nocountry.teleasistencia.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,9 +18,11 @@ import java.util.Objects;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,32 +32,21 @@ public abstract class User {
     private String email;
 
     private String name;
+    private String lastName;
 
     @NotBlank
     private String password;
 
-    @JsonIgnoreProperties({"users","handler","hibernateLazyInitializer"})
-    @ManyToMany
-    @JoinTable(
-            name = "user:roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role_id"})}
-    )
-    private List<Role> roles;
-
-    private Integer phone;
+    @Column(length = 10)
+    private String phone;
 
     private LocalDate created_at;
 
-    @Transient
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private boolean admin;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public User() {
-        this.roles = new ArrayList<>();
-    }
-
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Override
     public boolean equals(Object o) {
