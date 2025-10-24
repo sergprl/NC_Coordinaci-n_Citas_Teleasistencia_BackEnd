@@ -28,27 +28,26 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
 //        return new BCryptPasswordEncoder(12);
-//    }
+    }
 
-//    @Bean
-//    public AuthenticationProvider authProvider(UserDetailsService userDetailsService,
-//                                               PasswordEncoder passwordEncoder) {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setUserDetailsService(userDetailsService);
-//        provider.setPasswordEncoder(passwordEncoder);
-//        return provider;
-//    }
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
-        authBuilder.userDetailsService(userDetailsService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+        authBuilder.authenticationProvider(authenticationProvider());
 
         return authBuilder.build();
     }
@@ -64,6 +63,7 @@ public class SecurityConfig {
                         .requestMatchers(ADMIN_BASE + "/**").hasRole("ADMIN")
                         .requestMatchers(DOCTOR_BASE + "/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers(PATIENT_BASE + "/**").hasAnyRole("PATIENT", "ADMIN")
+                        .requestMatchers(APPOINTMENT_BASE + "/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .httpBasic((Customizer.withDefaults()));

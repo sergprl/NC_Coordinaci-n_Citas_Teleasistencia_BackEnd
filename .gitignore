@@ -31,3 +31,83 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+# My Custom stuff ---------------------------------
+
+# IntelliJ project files
+.idea/
+*.iml
+
+# Plugin-specific files
+*.ipr
+*.iws
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# IDE caches
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Build output
+out/
+
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+
+# For projects ----------------
+/tokens/
+credentials.json
+service-account-key.json
+
+# Java in general ----------
+# Compiled files
+*.class
+
+# Log files
+*.log

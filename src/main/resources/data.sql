@@ -1,1 +1,1 @@
-insert into users (email, password, role) values ('test@gmail.com', '{noop}password', 'ADMIN');
+insert into users (email, password, role) values ('admin@gmail.com', 'password', 'ADMIN');

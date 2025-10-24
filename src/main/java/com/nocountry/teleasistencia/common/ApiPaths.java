@@ -6,5 +6,6 @@ public final class ApiPaths {
     public static final String ADMIN_BASE = "/api/v1/admin";
     public static final String DOCTOR_BASE = "/api/v1/doctor";
     public static final String PATIENT_BASE = "/api/v1/patient";
+    public static final String APPOINTMENT_BASE = "/api/v1/appointment";
 
 }
