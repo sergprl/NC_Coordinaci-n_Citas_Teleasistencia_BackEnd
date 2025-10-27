@@ -2,35 +2,47 @@ package com.nocountry.teleasistencia.mapper;
 
 import com.nocountry.teleasistencia.dto.request.RequestAppointmentDto;
 import com.nocountry.teleasistencia.dto.response.ResponseAppointmentDto;
+import com.nocountry.teleasistencia.exceptions.DoctorNotFoundException;
+import com.nocountry.teleasistencia.exceptions.PatientNotFoundException;
 import com.nocountry.teleasistencia.model.Appointment;
 import com.nocountry.teleasistencia.model.Doctor;
 import com.nocountry.teleasistencia.model.Patient;
+import com.nocountry.teleasistencia.repository.DoctorRepository;
+import com.nocountry.teleasistencia.repository.PatientRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring", uses = {DoctorMapper.class, PatientMapper.class})
-public interface AppointmentMapper {
+public abstract class AppointmentMapper {
+    @Autowired
+    protected PatientRepository patientRepository;
+
+    @Autowired
+    protected DoctorRepository doctorRepository;
 
     @Mapping(source = "patientId", target = "patient")
     @Mapping(source = "doctorId", target = "doctor")
-    Appointment toEntity(RequestAppointmentDto dto);
+    public abstract Appointment toEntity(RequestAppointmentDto dto);
 
     @Mapping(source = "patient.id", target = "patientId")
     @Mapping(source = "doctor.id", target = "doctorId")
-    ResponseAppointmentDto toResponse(Appointment appointment);
+    public abstract ResponseAppointmentDto toResponse(Appointment appointment);
 
-    default Patient mapPatient(Long patientId) {
+    protected Patient mapPatient(Long patientId) {
         if (patientId == null) return null;
-        Patient p = new Patient();
-        p.setId(patientId);
-        return p;
+
+        return patientRepository
+                .findById(patientId)
+                .orElseThrow(() -> new PatientNotFoundException("Patient not found with id: " + patientId));
     }
 
-    default Doctor mapDoctor(Long doctorId) {
+    protected Doctor mapDoctor(Long doctorId) {
         if (doctorId == null) return null;
-        Doctor d = new Doctor();
-        d.setId(doctorId);
-        return d;
+
+        return doctorRepository
+                .findById(doctorId)
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with id: " + doctorId));
     }
 
 }

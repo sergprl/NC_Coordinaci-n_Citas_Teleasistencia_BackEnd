@@ -7,14 +7,20 @@ import com.nocountry.teleasistencia.model.enums.AppointmentType;
 import com.nocountry.teleasistencia.model.enums.Specialty;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@RequiredArgsConstructor
+@SpringBootTest
+
 public class AppointmentMapperTest {
-    private final AppointmentMapper appointmentMapper;
+    @Autowired
+    private AppointmentMapper appointmentMapper;
 
     @Test
     void shouldMapDtoToEntity() {
