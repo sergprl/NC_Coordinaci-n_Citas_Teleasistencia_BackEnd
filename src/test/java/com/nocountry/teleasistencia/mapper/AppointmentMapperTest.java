@@ -26,8 +26,8 @@ public class AppointmentMapperTest {
     @Test
     void toEntity_shouldThrowException_whenPatientNotFound() {
         RequestAppointmentDto dto = new RequestAppointmentDto(
-                101L,
-                201L,
+                "doctor@example.com",   // ahora es String
+                "patient@example.com",  // ahora es String
                 LocalDateTime.of(2025,5,5,12,0),
                 60,
                 AppointmentType.VIRTUAL,

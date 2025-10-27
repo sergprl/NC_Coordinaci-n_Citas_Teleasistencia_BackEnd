@@ -68,4 +68,7 @@ public class Appointment
 
     @Column(length = 255)
     private String reason;
+
+    private boolean recordatorioEnviado = false;
+    private boolean confirmacionEnviada = false;
 }

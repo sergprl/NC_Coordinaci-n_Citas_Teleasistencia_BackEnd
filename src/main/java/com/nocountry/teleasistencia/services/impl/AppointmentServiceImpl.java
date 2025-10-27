@@ -15,12 +15,14 @@ import com.nocountry.teleasistencia.repository.PatientRepository;
 import com.nocountry.teleasistencia.repository.UserRepository;
 import com.nocountry.teleasistencia.security.SecurityUtils;
 import com.nocountry.teleasistencia.services.AppointmentService;
+import com.nocountry.teleasistencia.services.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final PatientRepository patientRepository;
     private final GoogleMeetService meetService;
     private final AppointmentRepository appointmentRepository;
+    private final EmailService emailService;
+
 
     @Override
     public Appointment save(Appointment appointment) {
@@ -58,9 +62,10 @@ public class AppointmentServiceImpl implements AppointmentService {
             if(dto.appointmentDate().equals(other.getAppointmentDate())) return false;
         }
 
-        String patientEmail = SecurityUtils.getCurrentUserEmail();
+        String patientEmail = dto.patientEmail();
         Patient patient = patientRepository.findByEmail(patientEmail)
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found with email: " + patientEmail));
+
 
         String meetLink;
 
@@ -95,6 +100,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.save(appointment);
 
 
+
+// ✅ Enviar correo de confirmación al paciente
+        emailService.enviarConfirmacionCita(appointment);
         return true;
     }
 
