@@ -21,7 +21,6 @@ public abstract class AppointmentMapper {
     @Autowired
     protected DoctorRepository doctorRepository;
 
-    @Mapping(source = "patientId", target = "patient")
     @Mapping(source = "doctorEmail", target = "doctor")
     public abstract Appointment toEntity(RequestAppointmentDto dto);
 

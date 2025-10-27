@@ -16,11 +16,13 @@ import com.nocountry.teleasistencia.repository.UserRepository;
 import com.nocountry.teleasistencia.security.SecurityUtils;
 import com.nocountry.teleasistencia.services.AppointmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
     private final DoctorRepository doctorRepository;
@@ -60,14 +62,20 @@ public class AppointmentServiceImpl implements AppointmentService {
         Patient patient = patientRepository.findByEmail(patientEmail)
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found with email: " + patientEmail));
 
-        String meetLink = meetService.createMeetingLink(
-                String.format("Cita de 1 hora con %s %s %s.",
-                        doctor.getGender() == Gender.MASCULINO ? "el Dr." : "la Dra.",
-                        doctor.getName(),
-                        doctor.getLastName()),
-                dto.appointmentDate(),
-                dto.lengthMinutes()
-        );
+        String meetLink;
+
+        if (dto.appointmentType() == AppointmentType.VIRTUAL) {
+            meetLink = meetService.createMeetingLink(
+                    String.format("Cita de 1 hora con %s %s %s.",
+                            doctor.getGender() == Gender.MASCULINO ? "el Dr." : "la Dra.",
+                            doctor.getName(),
+                            doctor.getLastName()),
+                    dto.appointmentDate(),
+                    dto.lengthMinutes()
+            );
+        } else {
+            meetLink = "La cita es presencial";
+        }
 
         Appointment appointment = Appointment.builder()
                 .patient(patient)
