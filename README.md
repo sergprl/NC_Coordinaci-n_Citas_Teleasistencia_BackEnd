@@ -1,4 +1,4 @@
-# NC_Coordinaci-n_Citas_Teleasistencia_BackEnd
+# NC Coordinación de Citas y Teleasistencia - BackEnd
 No Country - Portal Web de Coordinación de Citas y Teleasistencia
 
 ## Descripcion del proyecto
