@@ -22,7 +22,7 @@ public abstract class AppointmentMapper {
     protected DoctorRepository doctorRepository;
 
     @Mapping(source = "patientId", target = "patient")
-    @Mapping(source = "doctorId", target = "doctor")
+    @Mapping(source = "doctorEmail", target = "doctor")
     public abstract Appointment toEntity(RequestAppointmentDto dto);
 
     @Mapping(source = "patient.id", target = "patientId")
@@ -37,12 +37,12 @@ public abstract class AppointmentMapper {
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found with id: " + patientId));
     }
 
-    protected Doctor mapDoctor(Long doctorId) {
-        if (doctorId == null) return null;
+    protected Doctor mapDoctor(String doctorEmail) {
+        if (doctorEmail == null) return null;
 
         return doctorRepository
-                .findById(doctorId)
-                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with id: " + doctorId));
+                .findByEmail(doctorEmail)
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with email: " + doctorEmail));
     }
 
 }

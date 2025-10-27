@@ -1,6 +1,7 @@
 package com.nocountry.teleasistencia.mapper;
 
 import com.nocountry.teleasistencia.dto.request.RequestAppointmentDto;
+import com.nocountry.teleasistencia.exceptions.PatientNotFoundException;
 import com.nocountry.teleasistencia.model.Appointment;
 import com.nocountry.teleasistencia.model.enums.AppointmentStatus;
 import com.nocountry.teleasistencia.model.enums.AppointmentType;
@@ -23,7 +24,7 @@ public class AppointmentMapperTest {
     private AppointmentMapper appointmentMapper;
 
     @Test
-    void shouldMapDtoToEntity() {
+    void toEntity_shouldThrowException_whenPatientNotFound() {
         RequestAppointmentDto dto = new RequestAppointmentDto(
                 101L,
                 201L,
@@ -36,10 +37,12 @@ public class AppointmentMapperTest {
         );
 
 
-        Appointment entity = appointmentMapper.toEntity(dto);
+        PatientNotFoundException exception = assertThrows(
+                PatientNotFoundException.class,
+                () -> appointmentMapper.toEntity(dto)
+        );
 
-        assertNotNull(entity);
-        assertEquals(AppointmentType.VIRTUAL, entity.getAppointmentType());
+        assertEquals("Patient not found with id: 101", exception.getMessage());
 
     }
 }
