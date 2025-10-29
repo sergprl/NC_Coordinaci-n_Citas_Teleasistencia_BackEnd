@@ -1,4 +1,4 @@
-package com.nocountry.teleasistencia.controllers;
+package com.nocountry.teleasistencia.controllers.authenticated;
 
 import com.nocountry.teleasistencia.services.impl.GoogleMeetService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 import static com.nocountry.teleasistencia.common.ApiPaths.APPOINTMENT_BASE;
-import static com.nocountry.teleasistencia.common.ApiPaths.PATIENT_BASE;
 
 @RestController
 @RequestMapping(APPOINTMENT_BASE)

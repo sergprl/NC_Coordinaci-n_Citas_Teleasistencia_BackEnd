@@ -1,5 +1,7 @@
 package com.nocountry.teleasistencia.services;
 
+import com.nocountry.teleasistencia.dto.request.RequestPatientDto;
+import com.nocountry.teleasistencia.dto.response.ResponsePatientDto;
 import com.nocountry.teleasistencia.model.Patient;
 
 import java.util.List;
@@ -7,11 +9,10 @@ import java.util.Optional;
 
 public interface PatientService {
 
-    Patient save(Patient patient);
+    Patient save(RequestPatientDto dto);
 
-    List<Patient> findAll();
+    List<ResponsePatientDto> findAll();
 
-    Optional<Patient> findById(Long id);
-
+    ResponsePatientDto findById(Long id);
 
 }

@@ -102,7 +102,7 @@ target/
 
 # For projects ----------------
 /tokens/
-credentials.json
+src/main/resources/credentials.json
 service-account-key.json
 
 src/main/java/**/sandbox/

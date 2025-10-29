@@ -31,8 +31,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-//        return new BCryptPasswordEncoder(12);
+//        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers(DOCTOR_BASE + "/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers(PATIENT_BASE + "/**").hasAnyRole("PATIENT", "ADMIN")
                         .requestMatchers(APPOINTMENT_BASE + "/**").hasRole("ADMIN")
+                        .requestMatchers(PUBLIC_BASE + "/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic((Customizer.withDefaults()));

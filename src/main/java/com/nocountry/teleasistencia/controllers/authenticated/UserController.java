@@ -1,4 +1,4 @@
-package com.nocountry.teleasistencia.controllers;
+package com.nocountry.teleasistencia.controllers.authenticated;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

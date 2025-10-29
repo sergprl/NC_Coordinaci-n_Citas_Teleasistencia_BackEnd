@@ -9,19 +9,12 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.ConferenceSolutionKey;
-import com.google.api.services.calendar.model.CreateConferenceRequest;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventDateTime;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Collections;
-import java.util.Date;
-import java.util.UUID;
 
 @Service
 public class GoogleMeetService {

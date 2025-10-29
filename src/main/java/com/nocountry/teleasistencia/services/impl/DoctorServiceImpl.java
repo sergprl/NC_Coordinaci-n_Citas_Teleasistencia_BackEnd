@@ -1,11 +1,17 @@
 package com.nocountry.teleasistencia.services.impl;
 
+import com.nocountry.teleasistencia.dto.request.RequestDoctorDto;
+import com.nocountry.teleasistencia.dto.response.ResponseDoctorDto;
+import com.nocountry.teleasistencia.exceptions.DoctorNotFoundException;
+import com.nocountry.teleasistencia.mapper.DoctorMapper;
 import com.nocountry.teleasistencia.model.Doctor;
 import com.nocountry.teleasistencia.model.enums.Role;
 import com.nocountry.teleasistencia.repository.DoctorRepository;
 import com.nocountry.teleasistencia.services.DoctorService;
 import com.nocountry.teleasistencia.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,30 +22,37 @@ import java.util.Optional;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final DoctorMapper doctorMapper;
+    private final PasswordEncoder encoder;
 
     @Override
-    public Doctor save(Doctor doctor) {
-        if (doctorRepository.existsByLicenseNumber(doctor.getLicenseNumber())) {
+    public Doctor save(RequestDoctorDto dto) {
+        if (doctorRepository.existsByLicenseNumber(dto.licenseNumber())) {
             throw new IllegalArgumentException("Doctor with license number already exists.");
         }
-        if (doctorRepository.existsByEmail(doctor.getEmail())) {
+        if (doctorRepository.existsByEmail(dto.email())) {
             throw new IllegalArgumentException("Email already in use.");
         }
 
-        doctor.setRole(Role.DOCTOR);
+        Doctor doctor = doctorMapper.toEntity(dto);
 
-        // TODO: Encrypt the password
+        doctor.setRole(Role.DOCTOR);
+        doctor.setPassword(encoder.encode(doctor.getPassword()));
 
         return doctorRepository.save(doctor);
     }
 
     @Override
-    public List<Doctor> findAll() {
-        return doctorRepository.findAll();
+    public List<ResponseDoctorDto> findAll() {
+        return doctorRepository.findAll()
+                .stream()
+                .map(doctorMapper::toResponse)
+                .toList();
     }
 
     @Override
-    public Optional<Doctor> findById(Long id) {
-        return doctorRepository.findById(id);
+    public ResponseDoctorDto findById(Long id) {
+        return doctorMapper.toResponse(doctorRepository.findById(id)
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with id: " + id)));
     }
 }
