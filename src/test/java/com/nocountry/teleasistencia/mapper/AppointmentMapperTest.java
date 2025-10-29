@@ -23,10 +23,11 @@ public class AppointmentMapperTest {
     @Autowired
     private AppointmentMapper appointmentMapper;
 
-//    @Test
+    @Test
     void toEntity_shouldThrowException_whenPatientNotFound() {
         RequestAppointmentDto dto = new RequestAppointmentDto(
-                "doctor@gmail.com",
+                "doctor@example.com",   // ahora es String
+                "patient@example.com",  // ahora es String
                 LocalDateTime.of(2025,5,5,12,0),
                 60,
                 AppointmentType.VIRTUAL,
@@ -41,7 +42,7 @@ public class AppointmentMapperTest {
                 () -> appointmentMapper.toEntity(dto)
         );
 
-        assertEquals("Patient not found with email: doctor@gmail.com", exception.getMessage());
+        assertEquals("Patient not found with id: 101", exception.getMessage());
 
     }
 }

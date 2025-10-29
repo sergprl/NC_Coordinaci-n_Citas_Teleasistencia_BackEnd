@@ -1,12 +1,12 @@
 package com.nocountry.teleasistencia.controllers.authenticated;
 
+import com.nocountry.teleasistencia.dto.request.RequestAppointmentDto;
+import com.nocountry.teleasistencia.services.AppointmentService;
 import com.nocountry.teleasistencia.services.impl.GoogleMeetService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +18,8 @@ import static com.nocountry.teleasistencia.common.ApiPaths.APPOINTMENT_BASE;
 @CrossOrigin(origins = "http://localhost:5173")
 public class AppointmentController {
     private final GoogleMeetService meetService;
+    private final AppointmentService appointmentService;
+
 
     @GetMapping("/create")
     public ResponseEntity<String> createMeeting() {
@@ -30,5 +32,18 @@ public class AppointmentController {
 
         return ResponseEntity.ok(meetLink);
     }
+    @PostMapping
+    public ResponseEntity<?> createAppointment(@RequestBody RequestAppointmentDto dto) {
+        boolean created = appointmentService.createAppointment(dto);
 
+        if (created) {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("✅ Cita creada exitosamente y correo enviado al paciente.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("⚠️ No se pudo crear la cita. Verifique los datos o el horario.");
+        }
+    }
 }
+
+

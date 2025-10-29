@@ -12,6 +12,8 @@ public record ResponseAppointmentDto(
         Long Id,
         Long patientId,
         Long doctorId,
+        String patientName,
+        String patientEmail,
         LocalDateTime appointmentDate,
         Integer lengthMinutes,
         AppointmentType appointmentType,

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 public record RequestAppointmentDto(
         String doctorEmail,
+        String patientEmail,
         @FutureOrPresent LocalDateTime appointmentDate,
         Integer lengthMinutes,
         AppointmentType appointmentType,
