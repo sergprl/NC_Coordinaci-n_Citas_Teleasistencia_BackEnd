@@ -1,8 +1,10 @@
 package com.nocountry.teleasistencia.services.impl;
 
 import com.nocountry.teleasistencia.dto.request.RequestAppointmentDto;
+import com.nocountry.teleasistencia.dto.response.ResponseAppointmentDto;
 import com.nocountry.teleasistencia.exceptions.DoctorNotFoundException;
 import com.nocountry.teleasistencia.exceptions.PatientNotFoundException;
+import com.nocountry.teleasistencia.mapper.AppointmentMapper;
 import com.nocountry.teleasistencia.model.Appointment;
 import com.nocountry.teleasistencia.model.Doctor;
 import com.nocountry.teleasistencia.model.Patient;
@@ -33,6 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final GoogleMeetService meetService;
     private final AppointmentRepository appointmentRepository;
     private final EmailService emailService;
+    private final AppointmentMapper appointmentMapper;
 
 
     @Override
@@ -41,8 +44,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> findAll() {
-        return List.of();
+    public List<ResponseAppointmentDto> findAll() {
+        return appointmentRepository.findAll()
+                .stream()
+                .map(appointmentMapper::toResponse)
+                .toList();
     }
 
     @Override

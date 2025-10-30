@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface DoctorService {
 
-    Doctor save(RequestDoctorDto dto);
+    ResponseDoctorDto save(RequestDoctorDto dto);
 
     List<ResponseDoctorDto> findAll();
 

@@ -26,18 +26,17 @@ public class PatientServiceImpl implements PatientService {
     private final PasswordEncoder encoder;
 
     @Override
-    public Patient save(RequestPatientDto dto) {
+    public ResponsePatientDto save(RequestPatientDto dto) {
         if (patientRepository.existsByEmail(dto.email())) {
             throw new IllegalArgumentException("Email already in use.");
         }
 
         Patient patient = patientMapper.toEntity(dto);
-        System.out.println(patient.getPassword());
 
         patient.setRole(Role.PATIENT);
         patient.setPassword(encoder.encode(patient.getPassword()));
 
-        return patientRepository.save(patient);
+        return patientMapper.toResponse(patientRepository.save(patient));
     }
 
     @Override

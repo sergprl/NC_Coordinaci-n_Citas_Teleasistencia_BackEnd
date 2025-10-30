@@ -26,7 +26,7 @@ public class DoctorServiceImpl implements DoctorService {
     private final PasswordEncoder encoder;
 
     @Override
-    public Doctor save(RequestDoctorDto dto) {
+    public ResponseDoctorDto save(RequestDoctorDto dto) {
         if (doctorRepository.existsByLicenseNumber(dto.licenseNumber())) {
             throw new IllegalArgumentException("Doctor with license number already exists.");
         }
@@ -39,7 +39,7 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setRole(Role.DOCTOR);
         doctor.setPassword(encoder.encode(doctor.getPassword()));
 
-        return doctorRepository.save(doctor);
+        return doctorMapper.toResponse(doctorRepository.save(doctor));
     }
 
     @Override

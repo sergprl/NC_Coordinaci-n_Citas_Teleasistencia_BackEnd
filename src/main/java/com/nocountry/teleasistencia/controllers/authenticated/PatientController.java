@@ -37,7 +37,6 @@ public class PatientController {
 
     @PostMapping("/appointment")
     public ResponseEntity<Boolean> createAppointment(@RequestBody RequestAppointmentDto appointmentDto) {
-        appointmentService.createAppointment(appointmentDto);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(appointmentService.createAppointment(appointmentDto));
     }
 }

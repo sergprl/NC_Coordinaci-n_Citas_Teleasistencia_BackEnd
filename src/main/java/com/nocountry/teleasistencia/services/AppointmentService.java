@@ -1,6 +1,7 @@
 package com.nocountry.teleasistencia.services;
 
 import com.nocountry.teleasistencia.dto.request.RequestAppointmentDto;
+import com.nocountry.teleasistencia.dto.response.ResponseAppointmentDto;
 import com.nocountry.teleasistencia.model.Appointment;
 import com.nocountry.teleasistencia.model.Doctor;
 import com.nocountry.teleasistencia.model.Patient;
@@ -15,7 +16,7 @@ public interface AppointmentService {
 
     Appointment save(Appointment appointment);
 
-    List<Appointment> findAll();
+    List<ResponseAppointmentDto> findAll();
 
     Optional<Appointment> findById(Long id);
 
