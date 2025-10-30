@@ -5,8 +5,10 @@ import com.nocountry.teleasistencia.model.Appointment;
 import com.nocountry.teleasistencia.services.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -15,16 +17,11 @@ import org.thymeleaf.context.Context;
 import java.time.format.DateTimeFormatter;
 
 @Service
+@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
-    // 🔹 Constructor manual para inyección de dependencias
-    @Autowired
-    public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine) {
-        this.mailSender = mailSender;
-        this.templateEngine = templateEngine;
-    }
+    private final JavaMailSender mailSender;
 
     @Override
     public void enviarConfirmacionCita(Appointment cita) {
@@ -63,10 +60,10 @@ public class EmailServiceImpl implements EmailService {
     public void sendEmail(String to, String subject, String text) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true); // CORREGIDO
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text, true); // CORREGIDO
+            helper.setText(text, true);
             helper.setFrom("jedatoos@gmail.com");
 
             mailSender.send(message);

@@ -62,7 +62,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             if(dto.appointmentDate().equals(other.getAppointmentDate())) return false;
         }
 
-        String patientEmail = dto.patientEmail();
+        String patientEmail = SecurityUtils.getCurrentUserEmail();
         Patient patient = patientRepository.findByEmail(patientEmail)
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found with email: " + patientEmail));
 
