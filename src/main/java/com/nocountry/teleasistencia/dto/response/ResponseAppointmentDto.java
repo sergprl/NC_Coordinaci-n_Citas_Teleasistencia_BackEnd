@@ -9,7 +9,7 @@ import com.nocountry.teleasistencia.model.enums.Specialty;
 import java.time.LocalDateTime;
 
 public record ResponseAppointmentDto(
-        Long Id,
+        Long id,
         Long patientId,
         Long doctorId,
         LocalDateTime appointmentDate,

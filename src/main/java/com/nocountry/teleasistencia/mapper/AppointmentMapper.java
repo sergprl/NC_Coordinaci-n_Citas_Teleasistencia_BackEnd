@@ -24,6 +24,7 @@ public abstract class AppointmentMapper {
     @Mapping(source = "doctorEmail", target = "doctor")
     public abstract Appointment toEntity(RequestAppointmentDto dto);
 
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "patient.id", target = "patientId")
     @Mapping(source = "doctor.id", target = "doctorId")
     public abstract ResponseAppointmentDto toResponse(Appointment appointment);
