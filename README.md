@@ -1,5 +1,6 @@
 # NC Coordinación de Citas y Teleasistencia - BackEnd
 No Country - Portal Web de Coordinación de Citas y Teleasistencia
+Este repositorio contiene una API REST que guarda información acerca de doctores y pacientes, citas presenciales y virtuales, así como recordatorios automáticos que se envían al correo del paciente y doctor.
 
 ## Descripcion del proyecto
 Backend en Spring Boot para gestionar la programación y seguimiento de citas médicas en línea. Permite la interacción entre pacientes y doctores, controla la disponibilidad de los profesionales, genera enlaces de videollamadas para las consultas, y gestiona la seguridad mediante roles diferenciados.
